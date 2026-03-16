@@ -1,19 +1,24 @@
+# Uso del archivo food_detector.py: python food_detector.py --image images/foto2.jpg 
+
+
 import torch
 from PIL import Image
+import json
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 
 MODEL_ID = "Qwen/Qwen2-VL-2B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
+# El prompt en inglés es bastante mejor para Qwen2
 PROMPT = """
 You are an expert nutritionist.
 
 Look carefully at the image and identify all foods present.
 
-Return ONLY a JSON object with this format:
+Return ONLY a object with this format:
 
 {
-  "foods": ["food1", "food2", "food3"]
+"foods": ["food1", "food2", "food3"]
 }
 
 Rules:
