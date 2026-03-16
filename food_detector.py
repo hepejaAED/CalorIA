@@ -1,30 +1,41 @@
 # Uso del archivo food_detector.py: python food_detector.py --image images/foto2.jpg 
-
+# Permite obtener una descripción de los productos y de un peso estimado a partir de una imagen.
+# El peso es puramente orientativo y se usa únicamente si no se especifica por el usuario.
 
 import torch
 from PIL import Image
-import json
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 
 MODEL_ID = "Qwen/Qwen2-VL-2B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # El prompt en inglés es bastante mejor para Qwen2
+# Indicarle que sea un experto nutricionista permite ser más visto identificando comidas
 PROMPT = """
 You are an expert nutritionist.
 
 Look carefully at the image and identify all foods present.
 
+Also estimate the approximate quantity of each food in grams.
+
+
 Return ONLY a object with this format:
 
 {
-"foods": ["food1", "food2", "food3"]
+ "foods": [
+   {
+     "name": "food_name",
+     "estimated_amount_g": number
+   }
+ ]
 }
 
 Rules:
 - Only include actual foods.
 - Do not include plates, tables, or utensils.
 - Use simple food names.
+
+If uncertain, give your best approximation.
 """
 
 def load_model():
@@ -74,7 +85,7 @@ def image_to_foods(model, processor, image_path):
         output_ids = model.generate(
             **inputs,
             max_new_tokens=120,
-            temperature=0.2
+            temperature=0.2 # Pequeña para evitar mucha variabilidad 
         )
 
     generated_tokens = output_ids[0][inputs.input_ids.shape[1]:]
@@ -102,10 +113,3 @@ if __name__ == "__main__":
     print("\nModel output:\n")
     print(result)
 
-    # Intentar parsear JSON
-    try:
-        foods = json.loads(result)
-        print("\nParsed foods:\n")
-        print(foods["foods"])
-    except:
-        print("\nCould not parse JSON")
