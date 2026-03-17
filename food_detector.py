@@ -6,36 +6,77 @@ import torch
 from PIL import Image
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 
-MODEL_ID = "Qwen/Qwen2-VL-2B-Instruct"
+MODEL_ID = "Qwen/Qwen2-VL-7B-Instruct" # Qwen/Qwen2-VL-2B-Instruct no es tan bueno estimando cantidades
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 # El prompt en inglés es bastante mejor para Qwen2
 # Indicarle que sea un experto nutricionista permite ser más visto identificando comidas
+# PROMPT = """
+# You are an expert nutritionist.
+
+# Look carefully at the image and identify all foods present.
+
+# Also estimate the approximate quantity of each food in grams.
+
+
+# Return ONLY a object with this format:
+
+# {
+#  "foods": [
+#    {
+#      "name": "food_name",
+#      "grams": number
+#    }
+#  ]
+# }
+
+# Rules:
+# - Only include actual foods.
+# - Do not include plates, tables, or utensils.
+# - Use simple food names.
+
+# If uncertain, give your best approximation.
+# """
+
 PROMPT = """
-You are an expert nutritionist.
+You are a highly accurate food recognition and portion estimation system.
 
-Look carefully at the image and identify all foods present.
+TASK:
+Analyze the image and identify all visible foods. Then estimate the approximate quantity (in grams) of each food.
 
-Also estimate the approximate quantity of each food in grams.
+IMPORTANT:
+- The image shows a single meal (one plate or bowl).
+- Assume a typical serving size unless clearly small or large.
+- Total food weight should usually be between 250g and 700g.
 
-
-Return ONLY a object with this format:
+OUTPUT FORMAT (STRICT):
+Return ONLY a valid JSON object. No explanation, no extra text.
 
 {
- "foods": [
-   {
-     "name": "food_name",
-     "estimated_amount_g": number
-   }
- ]
+  "foods": [
+    {
+      "name": "food_name",
+      "grams": number
+    }
+  ]
 }
 
-Rules:
-- Only include actual foods.
-- Do not include plates, tables, or utensils.
-- Use simple food names.
+RULES:
+- Only include edible food items.
+- Do NOT include plates, utensils, table, or background.
+- Use simple and common English names (e.g., "chickpeas", "beef", "rice").
+- If foods are mixed (e.g., stew), separate main ingredients when possible.
+- If uncertain, make a reasonable estimate.
 
-If uncertain, give your best approximation.
+CONSTRAINTS:
+- Each "grams" value must be a realistic integer.
+- The sum of all grams should be plausible for one meal.
+- Avoid extreme values (e.g., not 10g or 2000g unless clearly justified).
+
+BEHAVIOR:
+- Be precise and concise.
+- Do not explain your reasoning.
+- Output JSON only.
 """
 
 def load_model():
@@ -84,7 +125,7 @@ def image_to_foods(model, processor, image_path):
 
         output_ids = model.generate(
             **inputs,
-            max_new_tokens=120,
+            max_new_tokens=300,
             temperature=0.2 # Pequeña para evitar mucha variabilidad 
         )
 
