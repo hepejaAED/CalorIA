@@ -1,6 +1,15 @@
-<center>
-  <img src="icon.png" alt="CalorIA" width="200">
-</center>
+<table border="0">
+  <tr>
+    <td>
+      <img src="icon.png" alt="CalorIA" width="200">
+    </td>
+    <td>
+      <h1>CalorIA: Pipeline Nutricional Inteligente</h1>
+    </td>
+  </tr>
+</table>
+
+---
 
 # Arquitectura del Pipeline Nutricional Multimodal
 
