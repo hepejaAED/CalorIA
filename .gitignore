@@ -1,0 +1,27 @@
+# Secretos — nunca subir al repositorio
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Resultados generados
+results/
+
+# Modelos descargados (pueden pesar varios GB)
+models/
+*.bin
+*.safetensors
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
