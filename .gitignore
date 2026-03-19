@@ -1,6 +1,7 @@
 # Secretos — nunca subir al repositorio
 .env
 
+
 # Python
 __pycache__/
 *.py[cod]
