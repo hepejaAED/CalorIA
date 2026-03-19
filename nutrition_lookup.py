@@ -23,10 +23,13 @@ import re
 import json
 import torch
 import requests
+from dotenv import load_dotenv
+
+load_dotenv() #cargar el entorno con la API_KEY
 
 # ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
 
-USDA_API_KEY    = os.getenv("jpANH7VXgcWHfdRs3Q5ljPIhSgYec0m3SjxWu8Xa")  # DEMO_KEY funciona con límite bajo
+USDA_API_KEY    = os.getenv("USDA_API_KEY", "DEMO_KEY") 
 USDA_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"
 
 # Nutrientes que nos interesan y sus IDs en USDA
