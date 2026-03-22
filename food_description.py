@@ -5,7 +5,7 @@ from PIL import Image
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, AutoModelForCausalLM, AutoTokenizer
 
 # --- CONFIGURACIÓN ---
-TEXT_MODEL_ID = "Qwen/Qwen2.5-3B-Instruct" # Puedes usar versions más pequeñas (1.5B, 0.5B) si hay poca VRAM
+TEXT_MODEL_ID = "Qwen/Qwen2.5-3B-Instruct" 
 VISION_MODEL_ID = "Qwen/Qwen2-VL-7B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -91,8 +91,7 @@ class FoodNutritionSystem:
             {
             "name": "ingredient",
             "grams": number,
-            "source": "visible | inferred",
-            "importance": "high | medium | low"
+            "source": "visible | inferred"
             }
         ],
         "confidence": "low | medium | high"
@@ -126,19 +125,10 @@ class FoodNutritionSystem:
 
         6. GRAMS:
         - Estimate realistic quantities.
-        - Total dish weight: 250g–700g.
+        - Total dish weight: 250g-700g.
 
-        7. IMPORTANCE:
-        HIGH:
-        - Meat, fish, oil, rice, pasta, bread
 
-        MEDIUM:
-        - Vegetables, legumes, sauces
-
-        LOW:
-        - Spices, herbs
-
-        8. BEHAVIOR:
+        7. BEHAVIOR:
         - First think like a chef (context).
         - Then think like a nutritionist (quantities).
         - Prioritize visual evidence over prior knowledge.
