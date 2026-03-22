@@ -420,6 +420,32 @@ def scale_nutrients(nutrients_per_100g: dict, grams: float) -> dict:
 
 # ─── FUNCIÓN PRINCIPAL ────────────────────────────────────────────────────────
 
+def lookup_dish(dish_name: str, total_grams: float, model=None, processor=None) -> dict | None:
+    """
+    Intenta buscar el plato completo como una unidad en USDA y OpenFoodFacts.
+    Si lo encuentra, escala los macros al peso total del plato.
+    Solo llega hasta OpenFoodFacts — NO usa LLM (demasiado genérico para un plato entero).
+    Devuelve el resultado escalado o None si no hay match confiable.
+    """
+    print(f"\n🍽️  Buscando plato completo: '{dish_name}' ({total_grams}g)")
+
+    nutrients_100g = usda_search(dish_name)
+    if nutrients_100g is None:
+        nutrients_100g = off_search(dish_name)
+    if nutrients_100g is None:
+        print(f"  → Plato '{dish_name}' no encontrado. Entrando en lookup por ingredientes.")
+        return None
+
+    scaled = scale_nutrients(nutrients_100g, total_grams)
+    print(f"  ✅ Plato encontrado vía {nutrients_100g['source']}. Usando macros del plato completo.")
+    return {
+        "mode":   "dish",
+        "source": nutrients_100g["source"],
+        "name":   dish_name,
+        "grams":  total_grams,
+        **{k: scaled[k] for k in NUTRIENT_IDS},
+    }
+
 def analyze_meal(foods: list[dict], model=None, processor=None) -> dict:
     """
     Recibe la lista de food_detector.py: [{"name": str, "grams": int}, ...]
