@@ -5,7 +5,7 @@ from PIL import Image
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, AutoModelForCausalLM, AutoTokenizer
 
 # --- CONFIGURACIÓN ---
-TEXT_MODEL_ID = "Qwen/Qwen2-7B-Instruct" # Puedes usar versions más pequeñas (1.5B, 0.5B) si hay poca VRAM
+TEXT_MODEL_ID = "Qwen/Qwen2.5-3B-Instruct" # Puedes usar versions más pequeñas (1.5B, 0.5B) si hay poca VRAM
 VISION_MODEL_ID = "Qwen/Qwen2-VL-7B-Instruct"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -32,19 +32,127 @@ class FoodNutritionSystem:
 
     def _init_prompts(self):
         # Tu prompt original de experto (ligeramente modificado para aceptar el contexto)
+        # self.vision_expert_prompt_base = """
+        # You are an expert chef AND nutritionist.
+        # TASK: Analyze the image, reconstructing the dish, and estimate realistic ingredient quantities.
+
+        # ### USER ADDITIONAL CONTEXT (VERY IMPORTANT):
+        # {user_context_instruction}
+
+        # ### CRITICAL RULES:
+        # (Your original strict rules here...)
+        # 1. VISUAL PRIORITY: Only mark "visible" if clearly seen.
+        # 2. SOLID RESTRICTION: DO NOT infer solid ingredients not visible.
+        # 3. INFERRED INGREDIENTS (LIMITED): Only fluids/fats unavoidable.
+        # (Rest of your rules: 4, 5, 6, 7, 8...)
+        # """
         self.vision_expert_prompt_base = """
         You are an expert chef AND nutritionist.
-        TASK: Analyze the image, reconstructing the dish, and estimate realistic ingredient quantities.
 
-        ### USER ADDITIONAL CONTEXT (VERY IMPORTANT):
+        TASK:
+        Analyze the image and reconstruct the dish as it would be prepared in real life.
+        Then estimate realistic ingredient quantities.
+
+        IMPORTANT:
+        You MUST first understand the dish context before estimating quantities.
+
+        --------------------------------
+        USER ADDITIONAL CONTEXT (SECONDARY SOURCE):
         {user_context_instruction}
+        --------------------------------
 
-        ### CRITICAL RULES:
-        (Your original strict rules here...)
-        1. VISUAL PRIORITY: Only mark "visible" if clearly seen.
-        2. SOLID RESTRICTION: DO NOT infer solid ingredients not visible.
-        3. INFERRED INGREDIENTS (LIMITED): Only fluids/fats unavoidable.
-        (Rest of your rules: 4, 5, 6, 7, 8...)
+        CONTEXT USAGE RULES (VERY IMPORTANT):
+
+        - The image is ALWAYS the primary source of truth.
+        - The user context is a secondary hint and MUST NOT override the image.
+
+        - If user context contradicts the image:
+        → IGNORE the user input.
+
+        - If user context adds information NOT visible:
+        → You may ONLY use it if it refers to:
+            - hidden ingredients (e.g. "there is sauce underneath")
+            - cooking method (e.g. "fried", "grilled")
+            - portion size
+
+        - NEVER use user context to:
+        - add new visible ingredients
+        - override visual evidence
+        - force a recipe
+
+        --------------------------------
+
+        OUTPUT FORMAT (STRICT JSON ONLY):
+
+        {
+        "dish_name": "name of the dish",
+        "dish_type": "e.g. stew, soup, pasta",
+        "ingredients": [
+            {
+            "name": "ingredient",
+            "grams": number,
+            "source": "visible | inferred",
+            "importance": "high | medium | low"
+            }
+        ],
+        "confidence": "low | medium | high"
+        }
+
+        --------------------------------
+
+        CRITICAL RULES:
+
+        1. VISUAL PRIORITY (MOST IMPORTANT):
+        - Only mark an ingredient as "visible" if it is clearly seen in the image.
+        - If an ingredient is not clearly visible, it MUST NOT be labeled as visible.
+
+        2. SOLID INGREDIENT RESTRICTION:
+        - DO NOT infer solid ingredients that are not visible.
+        - Example: if potatoes are not visible, DO NOT include them.
+
+        3. INFERRED INGREDIENTS (LIMITED):
+        - Only infer unavoidable elements:
+        - liquids (broth, sauce)
+        - cooking fats (oil, butter)
+        - Do NOT infer additional solid ingredients.
+
+        4. DISH UNDERSTANDING:
+        - Identify the dish, but do NOT force a full recipe.
+        - The image is the source of truth.
+
+        5. INGREDIENT NAMING:
+        - Use precise culinary terms.
+        - Use "broth" instead of "water" when appropriate.
+
+        6. GRAMS:
+        - Estimate realistic quantities.
+        - Total dish weight: 250g–700g.
+
+        7. IMPORTANCE:
+        HIGH:
+        - Meat, fish, oil, rice, pasta, bread
+
+        MEDIUM:
+        - Vegetables, legumes, sauces
+
+        LOW:
+        - Spices, herbs
+
+        8. BEHAVIOR:
+        - First think like a chef (context).
+        - Then think like a nutritionist (quantities).
+        - Prioritize visual evidence over prior knowledge.
+        - Be conservative: when in doubt, omit the ingredient.
+        - Do NOT complete recipes.
+
+        --------------------------------
+
+        STRICT OUTPUT CONTROL:
+
+        - Output ONLY one JSON object.
+        - Do NOT add explanations.
+        - Do NOT repeat the JSON.
+        - Stop immediately after the JSON.
         """
                 # Prompt para el LLM de texto: traduce y optimiza
         self.text_refiner_prompt = """
@@ -102,7 +210,13 @@ class FoodNutritionSystem:
         
         print(f"Refining user input: '{user_text}'...")
         with torch.no_grad():
-            generated_ids = model.generate(model_inputs.input_ids, max_new_tokens=200, temperature=0.1)
+                    generated_ids = model.generate(
+                        **model_inputs, 
+                        max_new_tokens=100, # Suficiente para un prompt optimizado
+                        temperature=0.1,
+                        do_sample=False,    # Greedy search es más rápido y estable para traducciones
+                        pad_token_id=tokenizer.eos_token_id
+                    )
         
         response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
         refined_text = response.split("Output:")[-1].strip() # Extraer solo la salida
@@ -122,8 +236,12 @@ class FoodNutritionSystem:
             processed_context = self.refine_user_input(user_context_text)
             
         # 2. Preparar el prompt final de visión
-        final_vision_prompt = self.vision_expert_prompt_base.format(
-            user_context_instruction=processed_context
+        # final_vision_prompt = self.vision_expert_prompt_base.format(
+        #     user_context_instruction=processed_context
+        # )
+        final_vision_prompt = self.vision_expert_prompt_base.replace(
+            "{user_context_instruction}",
+            processed_context
         )
         
         # 3. Procesar la imagen con Qwen2-VL
