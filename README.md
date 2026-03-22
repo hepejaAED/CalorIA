@@ -4,23 +4,44 @@
       <img src="icon.png" alt="CalorIA" width="200">
     </td>
     <td>
-      <h1>CalorIA: Pipeline Nutricional Inteligente</h1>
+      <h1> Pipeline Nutricional Inteligente</h1>
     </td>
   </tr>
 </table>
 
 ---
 
-# Arquitectura del Pipeline Nutricional Multimodal
+# Ejemplo
+
+Aqui abría que añadir el input y el output, poner imágenes
+
+# Objetivo
+
+
+# Arquitectura del Pipeline
 
 <p align="center">
-  <img src="pipeline_arquitectura.excalidraw.svg" alt="Pipeline de IA Nutricional" width="70%">
+  <img src="pipeline_arquitectura.excalidraw.svg" alt="Pipeline de IA Nutricional" width="90%">
 </p>
 
-*Diagrama detallado del flujo de datos desde la entrada multimodal hasta la recomendación final.*
+*Diagrama detallado del flujo de datos desde la entrada multimodal hasta el resultado final.*
 
 
-## Bibliografía
+# Tecnologías utilizadas
+
+# Componentes del sistema
+
+Describir las funciones y las clases
+
+# Metodología
+
+# Uso
+
+# Limitaciones
+
+# Futuros trabajos
+
+# Bibliografía
 
 ```bibtex
 @misc{qwen3technicalreport,
