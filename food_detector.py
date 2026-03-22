@@ -1,156 +1,6 @@
-# # Uso del archivo food_detector.py: python food_detector.py --image images/foto2.jpg 
-# # Permite obtener una descripción de los productos y de un peso estimado a partir de una imagen.
-# # El peso es puramente orientativo y se usa únicamente si no se especifica por el usuario.
 
-# import torch
-# from PIL import Image
-# from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
-
-# MODEL_ID = "Qwen/Qwen2-VL-7B-Instruct" # Qwen/Qwen2-VL-2B-Instruct no es tan bueno estimando cantidades
-# DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-
-# # El prompt en inglés es bastante mejor para Qwen2
-# # Indicarle que sea un experto nutricionista permite ser más visto identificando comidas y un chef experto permite hacer mejor el contexto del plato.
-# PROMPT = """
-# You are an expert chef AND nutritionist.
-
-# TASK:
-# Analyze the image and reconstruct the dish as it would be prepared in real life.
-# Then estimate realistic ingredient quantities.
-
-# IMPORTANT:
-# You MUST first understand the dish context before estimating quantities.
-
-# OUTPUT FORMAT (STRICT JSON ONLY):
-
-# {
-#   "dish_name": "name of the dish",
-#   "dish_type": "e.g. stew, soup, pasta",
-#   "ingredients": [
-#     {
-#       "name": "ingredient",
-#       "grams": number,
-#       "source": "visible | inferred",
-#       "importance": "high | medium | low"
-#     }
-#   ],
-#   "confidence": "low | medium | high"
-# }
-
-# CRITICAL RULES:
-
-# 1. DISH UNDERSTANDING (VERY IMPORTANT):
-# - Identify the dish as a whole BEFORE listing ingredients.
-# - If the dish is a known recipe, use that knowledge.
-# - Example: a stew or "cocido" MUST include broth, not water.
-
-# 2. INGREDIENT NAMING:
-# - Use culinary terms, not generic ones.
-# - DO NOT say "water" if it is part of a cooked dish.
-# - Instead use: "broth", "meat broth", "chicken broth", "sauce", etc.
-
-# 3. INGREDIENTS:
-# - Include both visible and inferred ingredients.
-# - Inferred ingredients must reflect real recipes.
-
-# 4. GRAMS:
-# - Estimate realistic quantities.
-# - Total dish weight: 250g–700g.
-
-# 5. IMPORTANCE:
-# HIGH:
-# - Oil, meat, rice, pasta, bread, cheese
-
-# MEDIUM:
-# - Vegetables, legumes, sauces
-
-# LOW:
-# - Spices, herbs
-
-# 6. BEHAVIOR:
-# - First think like a chef (context).
-# - Then think like a nutritionist (quantities).
-# - Prefer realistic recipes over literal visual interpretation.
-
-# OUTPUT RULES:
-# - JSON only.
-# - No explanations.
-# """
-
-# def load_model():
-
-#     print("Loading model...")
-
-#     processor = AutoProcessor.from_pretrained(MODEL_ID)
-
-#     model = Qwen2VLForConditionalGeneration.from_pretrained(
-#         MODEL_ID,
-#         torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
-#         device_map="auto"
-#     )
-
-#     print("Model loaded\n")
-
-#     return model, processor
-
-# def image_to_foods(model, processor, image_path):
-
-#     image = Image.open(image_path).convert("RGB")
-#     image = image.resize((512, 512))
-#     messages = [
-#         {
-#             "role": "user",
-#             "content": [
-#                 {"type": "image", "image": image},
-#                 {"type": "text", "text": PROMPT},
-#             ],
-#         }
-#     ]
-
-#     text = processor.apply_chat_template(
-#         messages,
-#         tokenize=False,
-#         add_generation_prompt=True
-#     )
-
-#     inputs = processor(
-#         text=[text],
-#         images=[image],
-#         return_tensors="pt"
-#     ).to(DEVICE)
-
-#     with torch.no_grad():
-
-#         output_ids = model.generate(
-#             **inputs,
-#             max_new_tokens=500,
-#             temperature=0.4 # Pequeña para evitar mucha variabilidad, con 0.4 ayuda a detectar posibles ingredientes ocultos
-#         )
-
-#     generated_tokens = output_ids[0][inputs.input_ids.shape[1]:]
-
-#     response = processor.decode(
-#         generated_tokens,
-#         skip_special_tokens=True
-#     )
-
-#     return response
-
-# if __name__ == "__main__":
-
-#     import argparse
-
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--image", required=True)
-
-#     args = parser.parse_args()
-
-#     model, processor = load_model()
-
-#     result = image_to_foods(model, processor, args.image)
-
-#     print("\nModel output:\n")
-#     print(result)
+# Permite obtener una descripción de los productos y de un peso estimado a partir de una imagen.
+# El peso es puramente orientativo y se usa únicamente si no se especifica por el usuario.
 
 import torch
 import json
@@ -158,7 +8,7 @@ from PIL import Image
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 
 class FoodDetector:
-    def __init__(self, model_id="Qwen/Qwen2-VL-7B-Instruct"):
+    def __init__(self, model_id="Qwen/Qwen2-VL-7B-Instruct"): # Qwen/Qwen2-VL-2B-Instruct no es tan bueno estimando cantidades
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model_id = model_id
         self.prompt = """
@@ -247,7 +97,7 @@ class FoodDetector:
         print("Model loaded successfully.")
 
     def analyze_image(self, image_path, temperature=0.1):
-        # la temperatura pequeña para evitar mucha variabilidad, con 0.2 ayuda a detectar posibles ingredientes ocultos
+        # la temperatura pequeña para evitar mucha variabilidad, con 0.1 ayuda a detectar posibles ingredientes ocultos
         # Cargar y preparar imagen
         image = Image.open(image_path).convert("RGB")
         
