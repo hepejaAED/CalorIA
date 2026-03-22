@@ -189,27 +189,35 @@ class FoodDetector:
 
         CRITICAL RULES:
 
-        1. DISH UNDERSTANDING (VERY IMPORTANT):
-        - Identify the dish as a whole BEFORE listing ingredients.
-        - If the dish is a known recipe, use that knowledge.
-        - Example: a stew or "cocido" MUST include broth, not water.
+        1. VISUAL PRIORITY (MOST IMPORTANT):
+        - Only mark an ingredient as "visible" if it is clearly seen in the image.
+        - If an ingredient is not clearly visible, it MUST NOT be labeled as visible.
 
-        2. INGREDIENT NAMING:
-        - Use culinary terms, not generic ones.
-        - DO NOT say "water" if it is part of a cooked dish.
-        - Instead use: "broth", "meat broth", "chicken broth", "sauce", etc.
+        2. SOLID INGREDIENT RESTRICTION:
+        - DO NOT infer solid ingredients that are not visible.
+        - Example: if potatoes are not visible, DO NOT include them at all.
 
-        3. INGREDIENTS:
-        - Include both visible and inferred ingredients.
-        - Inferred ingredients must reflect real recipes.
+        3. INFERRED INGREDIENTS (LIMITED):
+        - Only infer elements that are unavoidable in the dish:
+        - liquids (broth, sauce)
+        - cooking fats (oil, butter)
+        - Do NOT infer additional solid ingredients.
 
-        4. GRAMS:
+        4. DISH UNDERSTANDING:
+        - Identify the dish, but do NOT force a full recipe.
+        - The image is the source of truth.
+
+        5. INGREDIENT NAMING:
+        - Use precise culinary terms.
+        - Use "broth" instead of "water" when appropriate.
+
+        6. GRAMS:
         - Estimate realistic quantities.
         - Total dish weight: 250g–700g.
 
-        5. IMPORTANCE:
+        7. IMPORTANCE:
         HIGH:
-        - Oil, meat, rice, pasta, bread, cheese
+        - Meat, fish, oil, rice, pasta, bread
 
         MEDIUM:
         - Vegetables, legumes, sauces
@@ -217,10 +225,12 @@ class FoodDetector:
         LOW:
         - Spices, herbs
 
-        6. BEHAVIOR:
+        8. BEHAVIOR:
         - First think like a chef (context).
         - Then think like a nutritionist (quantities).
-        - Prefer realistic recipes over literal visual interpretation.
+        - Prioritize visual evidence over prior knowledge.
+        - Be conservative: when in doubt, omit the ingredient.
+        - Do NOT complete recipes.
 
         OUTPUT RULES:
         - JSON only.
@@ -236,7 +246,7 @@ class FoodDetector:
         )
         print("Model loaded successfully.")
 
-    def analyze_image(self, image_path, temperature=0.2):
+    def analyze_image(self, image_path, temperature=0.1):
         # la temperatura pequeña para evitar mucha variabilidad, con 0.2 ayuda a detectar posibles ingredientes ocultos
         # Cargar y preparar imagen
         image = Image.open(image_path).convert("RGB")
