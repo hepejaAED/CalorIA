@@ -2,7 +2,7 @@ import torch
 import json
 import gc
 from PIL import Image
-from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, AutoModelForCausalLM, AutoTokenizer
+from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, AutoModelForCausalLM, AutoTokenizer,BitsAndBytesConfig
 
 # --- CONFIGURACIÓN ---
 TEXT_MODEL_ID = "Qwen/Qwen2.5-3B-Instruct" 
