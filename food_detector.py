@@ -5,6 +5,7 @@
 import torch
 from PIL import Image
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
+from transformers import BitsAndBytesConfig
 
 MODEL_ID = "Qwen/Qwen2-VL-7B-Instruct" # Qwen/Qwen2-VL-2B-Instruct no es tan bueno estimando cantidades
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -85,11 +86,17 @@ def load_model():
 
     processor = AutoProcessor.from_pretrained(MODEL_ID)
 
-    model = Qwen2VLForConditionalGeneration.from_pretrained(
+    if DEVICE == "cuda":
+     bnb_config = BitsAndBytesConfig(load_in_4bit=True)
+     model = Qwen2VLForConditionalGeneration.from_pretrained(
         MODEL_ID,
-        torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
-        device_map="auto"
-    )
+        quantization_config=bnb_config,
+        device_map="auto")
+    else:
+     model = Qwen2VLForConditionalGeneration.from_pretrained(
+        MODEL_ID,
+        torch_dtype=torch.float32,
+        device_map="auto")
 
     print("Model loaded\n")
 
