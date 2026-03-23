@@ -12,19 +12,28 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 class FoodNutritionSystem:
     def __init__(self, unload_text_model=True):
         self.unload_text_model = unload_text_model
-        
+
         # Prompts base (fijos)
         self._init_prompts()
-        
+
         # Inicializar componentes de Visión (los más pesados, los mantenemos)
         print(f"Loading Vision Model: {VISION_MODEL_ID} on {DEVICE}...")
         self.v_processor = AutoProcessor.from_pretrained(VISION_MODEL_ID)
-        self.v_model = Qwen2VLForConditionalGeneration.from_pretrained(
-            VISION_MODEL_ID,
-            torch_dtype=torch.float16 if DEVICE == "cuda" else torch.float32,
-            device_map="auto" # O usa DEVICE si no tienes múltiples GPUs
-        )
-        
+
+        if DEVICE == "cuda":
+            bnb_config = BitsAndBytesConfig(load_in_4bit=True)
+            self.v_model = Qwen2VLForConditionalGeneration.from_pretrained(
+                VISION_MODEL_ID,
+                quantization_config=bnb_config,
+                device_map="auto"
+                )
+        else:
+            self.v_model = Qwen2VLForConditionalGeneration.from_pretrained(
+                VISION_MODEL_ID,
+                torch_dtype=torch.float32,
+                device_map="auto"
+                )
+
         # Componentes de texto se cargan bajo demanda para ahorrar VRAM
         self.t_tokenizer = None
         self.t_model = None

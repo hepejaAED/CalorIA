@@ -5,7 +5,7 @@
 import torch
 import json
 from PIL import Image
-from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
+from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
 
 class FoodDetector:
     def __init__(self, model_id="Qwen/Qwen2-VL-7B-Instruct"): # Qwen/Qwen2-VL-2B-Instruct no es tan bueno estimando cantidades
@@ -89,11 +89,19 @@ class FoodDetector:
         
         print(f"Loading model {model_id} on {self.device}...")
         self.processor = AutoProcessor.from_pretrained(model_id)
-        self.model = Qwen2VLForConditionalGeneration.from_pretrained(
-            model_id,
-            torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
-            device_map="auto"
-        )
+        if self.device == "cuda":
+            bnb_config = BitsAndBytesConfig(load_in_4bit=True)
+            self.model = Qwen2VLForConditionalGeneration.from_pretrained(
+                model_id,
+                quantization_config=bnb_config,
+                device_map="auto"
+            )
+        else:
+            self.model = Qwen2VLForConditionalGeneration.from_pretrained(
+                model_id,
+                torch_dtype=torch.float32,
+                device_map="auto"
+            )
         print("Model loaded successfully.")
 
     def analyze_image(self, image_path, temperature=0.1):
