@@ -231,7 +231,7 @@ class FoodNutritionSystem:
         # 3. Procesar la imagen con Qwen2-VL
         print("Analyzing image with Qwen2-VL...")
         image = Image.open(image_path).convert("RGB")
-        
+        image.thumbnail((512, 512), Image.LANCZOS) 
         messages = [
             {
                 "role": "user",
