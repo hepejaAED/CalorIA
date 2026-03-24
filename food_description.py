@@ -84,6 +84,7 @@ class FoodNutritionSystem:
         {
         "dish_name": "name of the dish",
         "dish_type": "e.g. stew, soup, pasta",
+        "canonical_name": "paella" or null,
         "ingredients": [
             {
             "name": "ingredient",
@@ -95,7 +96,30 @@ class FoodNutritionSystem:
         }
 
         --------------------------------
+        CANONICAL NAME RULES:
 
+        - Set canonical_name ONLY if the dish is an unambiguous traditional recipe
+        with well-known fixed ingredients and a specific preparation method.
+        - Visual evidence must be CONCLUSIVE, not merely compatible.
+        - When in doubt → always null.
+
+        VALID examples (set canonical_name):
+        - "paella": visible socarrat, flat paella pan, seafood or mixed proteins on rice
+        - "fabada": large white fabes clearly visible, with chorizo and morcilla
+        - "gazpacho": smooth cold red soup served in a glass or bowl, no chunks
+        - "tortilla española": thick egg and potato omelette, no visible fillings
+        - "cocido madrileño": chickpeas, vegetables and meat served separately
+        - "ramen": Japanese broth with noodles, soft-boiled egg, nori
+        - "pad thai": stir-fried flat rice noodles with egg, peanuts and lime
+
+        INVALID examples (set null):
+        - Rice with chicken and vegetables → not paella without the pan and socarrat
+        - Bean soup with sausage → not fabada without clearly identifiable fabes
+        - Any dish where you are inferring the recipe from partial visual evidence
+        - Any fusion dish, improvised plate, or restaurant invention
+        
+        --------------------------------
+        
         CRITICAL RULES:
 
         1. VISUAL PRIORITY (MOST IMPORTANT):
@@ -137,6 +161,7 @@ class FoodNutritionSystem:
         STRICT OUTPUT CONTROL:
 
         - Output ONLY one JSON object.
+        - canonical_name must be a string or null, never omitted.
         - Do NOT add explanations.
         - Do NOT repeat the JSON.
         - Stop immediately after the JSON.
