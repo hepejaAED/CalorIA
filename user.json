@@ -1,0 +1,9 @@
+{
+    "name": "Usuario",
+    "daily_targets": {
+        "kcal": 2701,
+        "protein_g": 135,
+        "carbs_g": 351,
+        "fat_g": 84
+    }
+}
