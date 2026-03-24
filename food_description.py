@@ -18,7 +18,10 @@ class FoodNutritionSystem:
 
         # Inicializar componentes de Visión (los más pesados, los mantenemos)
         print(f"Loading Vision Model: {VISION_MODEL_ID} on {DEVICE}...")
-        self.v_processor = AutoProcessor.from_pretrained(VISION_MODEL_ID)
+        self.v_processor = AutoProcessor.from_pretrained(
+            VISION_MODEL_ID,min_pixels=256 * 28 * 28,
+            max_pixels=512 * 512,   # limitar tokens visuales, crítico con 8GB
+        )
 
         if DEVICE == "cuda":
             bnb_config = BitsAndBytesConfig(load_in_4bit=True)
@@ -40,21 +43,6 @@ class FoodNutritionSystem:
         print("System initialized.")
 
     def _init_prompts(self):
-        # Tu prompt original de experto (ligeramente modificado para aceptar el contexto)
-        # self.vision_expert_prompt_base = """
-        # You are an expert chef AND nutritionist.
-        # TASK: Analyze the image, reconstructing the dish, and estimate realistic ingredient quantities.
-
-        # ### USER ADDITIONAL CONTEXT (VERY IMPORTANT):
-        # {user_context_instruction}
-
-        # ### CRITICAL RULES:
-        # (Your original strict rules here...)
-        # 1. VISUAL PRIORITY: Only mark "visible" if clearly seen.
-        # 2. SOLID RESTRICTION: DO NOT infer solid ingredients not visible.
-        # 3. INFERRED INGREDIENTS (LIMITED): Only fluids/fats unavoidable.
-        # (Rest of your rules: 4, 5, 6, 7, 8...)
-        # """
         self.vision_expert_prompt_base = """
         You are an expert chef AND nutritionist.
 
@@ -153,7 +141,7 @@ class FoodNutritionSystem:
         - Do NOT repeat the JSON.
         - Stop immediately after the JSON.
         """
-                # Prompt para el LLM de texto: traduce y optimiza
+        # Prompt para el LLM de texto: traduce y optimiza
         self.text_refiner_prompt = """
         You are a translation and prompt engineering expert for AI vision models.
         TASK:
@@ -235,9 +223,6 @@ class FoodNutritionSystem:
             processed_context = self.refine_user_input(user_context_text)
             
         # 2. Preparar el prompt final de visión
-        # final_vision_prompt = self.vision_expert_prompt_base.format(
-        #     user_context_instruction=processed_context
-        # )
         final_vision_prompt = self.vision_expert_prompt_base.replace(
             "{user_context_instruction}",
             processed_context
@@ -271,7 +256,7 @@ class FoodNutritionSystem:
         with torch.no_grad():
             output_ids = self.v_model.generate(
                 **inputs,
-                max_new_tokens=500,
+                max_new_tokens=300,
                 temperature=temperature,
                 do_sample=True if temperature > 0 else False
             )
