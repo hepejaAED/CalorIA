@@ -17,6 +17,7 @@ Aqui abría que añadir el input y el output, poner imágenes
 
 # Objetivo
 
+El objetivo de este proyecto es desarrollar un sistema basado en Deep Learning capaz de estimar las calorías y macronutrientes de una comida a partir de una imagen, integrando de forma coherente información visual y textual proporcionada por el usuario. Para ello, se plantea el diseño de un pipeline multimodal que permita identificar los ingredientes presentes en el plato, inferir su contexto culinario y estimar cantidades realistas, combinando el uso de modelos de visión-lenguaje con técnicas de procesamiento de texto. Asimismo, el sistema busca apoyarse en bases de datos nutricionales y mecanismos de estimación cuando sea necesario, con el fin de obtener una aproximación fiable de los valores nutricionales, manteniendo una arquitectura modular que facilite su mejora y escalabilidad.
 
 # Arquitectura del Pipeline
 
@@ -29,17 +30,34 @@ Aqui abría que añadir el input y el output, poner imágenes
 
 # Tecnologías utilizadas
 
+
+
 # Componentes del sistema
 
 Describir las funciones y las clases
 
 # Metodología
 
+- **Input**: Imagen de la comida y un texto opcional del usuario por si es necesario completar la información.
+- el texto se preprocesa con un Text to text utilizando Qwen2.5-3B-Instruct con el objetivo de traducir el texto del usuario 
+
 # Uso
+
+<p align="center">
+  <img src="imagenes/foto.jpg" alt="" width="50%">
+</p>
+
+
 
 # Limitaciones
 
+La estimación de cantidades a partir de la imagen es una estimación y depende de la calidad y la perspectiva de la imagen. Además, la detección de alimentos ocultos o poco visibles puede resultar imprecisa.
+La cobertura de las bases de datos nutricionales no siempre es completa, requiriendo estimaciones adicionales. Por último, el coste computacional del sistema es elevado, lo que se traduce en tiempos de inferencia altos y limita su aplicabilidad en entornos en tiempo real.
+
+
 # Futuros trabajos
+
+
 
 # Bibliografía
 
