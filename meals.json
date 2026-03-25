@@ -1,0 +1,142 @@
+{
+    "2026-03-24": [
+        {
+            "dish_name": "Grilled Salmon with Lemon and Herb Sauce",
+            "ingredients": [
+                {
+                    "name": "grilled salmon",
+                    "grams": 200
+                },
+                {
+                    "name": "lemon slices",
+                    "grams": 50
+                },
+                {
+                    "name": "herb sauce",
+                    "grams": 20
+                },
+                {
+                    "name": "lettuce",
+                    "grams": 50
+                },
+                {
+                    "name": "tomatoes",
+                    "grams": 50
+                },
+                {
+                    "name": "cucumber",
+                    "grams": 50
+                },
+                {
+                    "name": "potatoes",
+                    "grams": 66
+                }
+            ],
+            "nutrition": {
+                "items": [
+                    {
+                        "name": "grilled salmon",
+                        "grams": 200,
+                        "source": "LLM (estimado)",
+                        "description": "grilled salmon",
+                        "kcal": 474.0,
+                        "protein_g": 42.2,
+                        "fat_g": 29.4,
+                        "carbs_g": 0.0,
+                        "fiber_g": 0.0,
+                        "sugar_g": 0.0,
+                        "sodium_mg": 200.0
+                    },
+                    {
+                        "name": "lemon slices",
+                        "grams": 50,
+                        "source": "LLM (estimado)",
+                        "description": "lemon slices",
+                        "kcal": 5.5,
+                        "protein_g": 0.0,
+                        "fat_g": 0.0,
+                        "carbs_g": 1.4,
+                        "fiber_g": 0.1,
+                        "sugar_g": 1.4,
+                        "sodium_mg": 0.0
+                    },
+                    {
+                        "name": "herb sauce",
+                        "grams": 20,
+                        "source": "LLM (estimado)",
+                        "description": "herb sauce",
+                        "kcal": 20.0,
+                        "protein_g": 0.1,
+                        "fat_g": 0.1,
+                        "carbs_g": 2.0,
+                        "fiber_g": 0.1,
+                        "sugar_g": 0.0,
+                        "sodium_mg": 0.0
+                    },
+                    {
+                        "name": "lettuce",
+                        "grams": 50,
+                        "source": "LLM (estimado)",
+                        "description": "lettuce",
+                        "kcal": 7.5,
+                        "protein_g": 0.3,
+                        "fat_g": 0.1,
+                        "carbs_g": 0.6,
+                        "fiber_g": 0.3,
+                        "sugar_g": 0.1,
+                        "sodium_mg": 5.0
+                    },
+                    {
+                        "name": "tomatoes",
+                        "grams": 50,
+                        "source": "LLM (estimado)",
+                        "description": "tomatoes",
+                        "kcal": 9.0,
+                        "protein_g": 0.3,
+                        "fat_g": 0.1,
+                        "carbs_g": 2.0,
+                        "fiber_g": 0.6,
+                        "sugar_g": 1.4,
+                        "sodium_mg": 9.0
+                    },
+                    {
+                        "name": "cucumber",
+                        "grams": 50,
+                        "source": "LLM (estimado)",
+                        "description": "cucumber",
+                        "kcal": 8.5,
+                        "protein_g": 0.3,
+                        "fat_g": 0.1,
+                        "carbs_g": 1.4,
+                        "fiber_g": 0.6,
+                        "sugar_g": 0.1,
+                        "sodium_mg": 5.0
+                    },
+                    {
+                        "name": "potatoes",
+                        "grams": 66,
+                        "source": "LLM (estimado)",
+                        "description": "potatoes",
+                        "kcal": 105.6,
+                        "protein_g": 1.3,
+                        "fat_g": 0.1,
+                        "carbs_g": 25.1,
+                        "fiber_g": 1.3,
+                        "sugar_g": 0.0,
+                        "sodium_mg": 6.6
+                    }
+                ],
+                "totals": {
+                    "kcal": 630.1,
+                    "protein_g": 44.5,
+                    "fat_g": 29.9,
+                    "carbs_g": 32.5,
+                    "fiber_g": 3.0,
+                    "sugar_g": 3.0,
+                    "sodium_mg": 225.6
+                }
+            },
+            "time": "21:15:57"
+        }
+    ]
+}
