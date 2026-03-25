@@ -339,7 +339,7 @@ def _verify_with_db(llm_output: dict, model, proc_or_tok) -> dict:
 # ─── PRETTY PRINT ─────────────────────────────────────────────────────────────
 
 def print_suggestion(suggestion: dict) -> None:
-    SOURCE_ICONS = {"USDA": "✅", "OpenFoodFacts": "🌍", "LLM (estimado)": "⚠️"}
+    SOURCE_ICONS = {"USDA": "✅", "LLM (estimado)": "⚠️"}
 
     print("\n" + "═" * 58)
     print("  SUGERENCIA DE PLATO")
@@ -378,5 +378,5 @@ def print_suggestion(suggestion: dict) -> None:
         sign   = "+" if diff >= 0 else ""
         print(f"  {label:<12} {needed:>8.1f}{unit}  {got:>8.1f}{unit}  {sign}{diff:>8.1f}{unit}")
 
-    print("\n  Fuentes: ✅ USDA  🌍 OpenFoodFacts  ⚠️  LLM (estimado)")
+    print("\n  Fuentes: ✅ USDA  ⚠️  LLM (estimado)")
     print("═" * 58 + "\n")

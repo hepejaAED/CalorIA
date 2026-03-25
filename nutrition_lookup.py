@@ -50,11 +50,6 @@ USDA_MIN_SIMILARITY = 0.3
 # Palabras que indican formas procesadas no deseadas salvo que el query las incluya
 PROCESSED_WORDS = {"dried", "powder", "dehydrated", "freeze-dried"}
 
-# OpenFoodFacts — segunda fuente, gratuita, sin API key, productos europeos/españoles
-OFF_SEARCH_URL      = "https://world.openfoodfacts.org/cgi/search.pl"
-OFF_USER_AGENT      = "CalorIA/1.0 (miniproject)"
-OFF_MIN_CONTAINMENT = 0.5   # más permisivo que USDA (0.6) — nombres pueden variar de idioma
-
 # Prompt para el fallback LLM — texto puro, sin imagen
 LLM_FALLBACK_PROMPT = """You are a professional nutritionist database.
 
@@ -194,91 +189,6 @@ def _extract_nutrients_usda(nutrient_list: list) -> dict:
         for key, nid in NUTRIENT_IDS.items()
     }
 
-# ─── OPENFOODFACTS ────────────────────────────────────────────────────────────
-
-def _extract_nutrients_off(nutriments: dict, product_name: str) -> dict | None:
-    """Extrae nutrientes de un producto OpenFoodFacts (valores por 100g).
-    Devuelve None si faltan más de 3 de los 7 campos clave."""
-    off_map = {
-        "kcal":      "energy-kcal_100g",
-        "protein_g": "proteins_100g",
-        "fat_g":     "fat_100g",
-        "carbs_g":   "carbohydrates_100g",
-        "fiber_g":   "fiber_100g",
-        "sugar_g":   "sugars_100g",
-        "sodium_mg": "sodium_100g",  # OFF almacena sodio en gramos → convertir a mg
-    }
-    result  = {}
-    missing = 0
-    for key, off_key in off_map.items():
-        val = nutriments.get(off_key)
-        if val is None:
-            missing += 1
-            result[key] = 0.0
-        else:
-            result[key] = round(float(val) * 1000, 2) if key == "sodium_mg" else round(float(val), 2)
-    if missing > 3:
-        return None
-    result["source"]      = "OpenFoodFacts"
-    result["description"] = product_name
-    return result
-
-
-def off_search(food_name: str) -> dict | None:
-    """
-    Busca en OpenFoodFacts como segunda fuente tras USDA.
-    Selecciona el producto con mejor contención de palabras del query.
-    Devuelve nutrientes por 100g o None si no hay match confiable.
-    """
-    params = {
-        "search_terms": food_name,
-        "json":         1,
-        "action":       "process",
-        "page_size":    5,
-        "fields":       "product_name,nutriments",
-        "sort_by":      "unique_scans_n",   # más escaneados = datos más fiables
-    }
-    headers = {"User-Agent": OFF_USER_AGENT}
-
-    try:
-        resp = requests.get(OFF_SEARCH_URL, params=params, headers=headers, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-    except Exception as e:
-        print(f"  [OFF] Error para '{food_name}': {e}")
-        return None
-
-    products = [p for p in data.get("products", []) if p.get("product_name")]
-    if not products:
-        print(f"  [OFF] Sin resultados para '{food_name}'")
-        return None
-
-    # Seleccionar el producto con mejor contención de palabras del query
-    best       = None
-    best_score = -1.0
-    for product in products:
-        score = _word_containment(food_name, product.get("product_name", ""))
-        if score > best_score:
-            best_score = score
-            best       = product
-
-    query_words = re.sub(r"[^\w\s]", "", _normalize_text(food_name).lower()).split()
-    threshold   = OFF_MIN_CONTAINMENT if len(query_words) >= 2 else 0.3
-
-    if best_score < threshold:
-        print(f"  [OFF] Sin match confiable ({best_score:.2f}) para '{food_name}'")
-        return None
-
-    product_name = best.get("product_name", food_name)
-    result       = _extract_nutrients_off(best.get("nutriments", {}), product_name)
-
-    if result is None:
-        print(f"  [OFF] Datos nutricionales incompletos para '{food_name}'")
-        return None
-
-    print(f"  [OFF] '{food_name}' → '{product_name}' (contención {best_score:.2f})")
-    return result
-
 # ─── LLM FALLBACK (Qwen2-VL en modo texto puro) ───────────────────────────────
 
 def llm_fallback(food_name: str, model, processor) -> dict | None:
@@ -401,8 +311,6 @@ def get_nutrients_per_100g(food_name: str, model=None, processor=None) -> dict |
     """
     result = usda_search(food_name)
     if result is None:
-        result = off_search(food_name)
-    if result is None:
         result = llm_fallback(food_name, model, processor)
     return result
 
@@ -430,8 +338,6 @@ def lookup_dish(dish_name: str, total_grams: float, model=None, processor=None) 
     print(f"\n🍽️  Buscando plato completo: '{dish_name}' ({total_grams}g)")
 
     nutrients_100g = usda_search(dish_name)
-    if nutrients_100g is None:
-        nutrients_100g = off_search(dish_name)
     if nutrients_100g is None:
         print(f"  → Plato '{dish_name}' no encontrado. Entrando en lookup por ingredientes.")
         return None
@@ -560,7 +466,6 @@ def analyze_from_raw(raw: str, model=None, processor=None) -> dict:
 def print_meal_summary(result: dict):
     SOURCE_ICONS = {
         "USDA":           "✅",
-        "OpenFoodFacts":  "🌍",
         "LLM (estimado)": "⚠️ ",
         None:             "❌",
     }
@@ -593,7 +498,7 @@ def print_meal_summary(result: dict):
     print(f"  🌾 Fibra:            {t['fiber_g']} g")
     print(f"  🧂 Sodio:            {t['sodium_mg']} mg")
     print()
-    print("  Fuentes: ✅ USDA  🌍 OpenFoodFacts  ⚠️  LLM (estimado)  ❌ No encontrado")
+    print("  Fuentes: ✅ USDA  ⚠️  LLM (estimado)  ❌ No encontrado")
     print("═" * 58 + "\n")
 
 # ─── ENTRY POINT ──────────────────────────────────────────────────────────────
