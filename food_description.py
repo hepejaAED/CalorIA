@@ -230,8 +230,8 @@ class FoodNutritionSystem:
                         pad_token_id=tokenizer.eos_token_id
                     )
         
-        response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-        refined_text = response.split("Output:")[-1].strip() # Extraer solo la salida
+        generated_tokens = generated_ids[0][model_inputs.input_ids.shape[1]:]
+        refined_text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
         print(f"Refined context: '{refined_text}'")
         
         if self.unload_text_model:
