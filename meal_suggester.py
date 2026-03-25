@@ -34,7 +34,7 @@ TIME_TRIGGER_HOURS = 3.5    # sugerir si quedan ≤ 3.5 h para medianoche
 
 SUGGESTER_PROMPT = """You are a professional nutritionist assistant.
 
-A user has eaten the following today and has remaining nutritional needs.
+A user needs to cover their remaining nutritional needs for today.
 
 REMAINING MACROS TO COVER:
 - Calories: {kcal_remaining} kcal
@@ -44,28 +44,34 @@ REMAINING MACROS TO COVER:
 
 USER RESTRICTIONS: {restrictions}
 
+MEAL TYPE RULES (follow strictly based on remaining calories):
+- More than 600 kcal remaining  → suggest a FULL MEAL (main dish with sides)
+- Between 250 and 600 kcal      → suggest a LIGHT MEAL (salad, wrap, bowl, soup)
+- Less than 250 kcal            → suggest a SNACK or SMALL COMPLEMENT (fruit, yogurt, nuts, toast)
+
 TASK:
-Suggest ONE realistic meal (not a snack) that best covers the remaining macros.
-The meal must be:
-- A real, common dish (not invented).
-- Achievable in one plate.
-- Proportional in size: total weight between 200g and 600g.
-- Simple enough to look up in a nutritional database.
+Suggest ONE option that best fits the remaining macros and the meal type above.
+It must be appetizing and varied — avoid generic "chicken and rice" style suggestions.
+
+INGREDIENT NAMING RULES (critical for database lookup):
+- Use simple, generic English names: "salmon" not "grilled salmon fillet"
+- No preparation methods in the name: "potato" not "boiled potato"
+- No compound names: "olive oil" and "tomato" separately, not "tomato with olive oil"
+- Use the most common form: "chicken breast" not "boneless skinless chicken breast"
 
 Return ONLY a valid JSON object, no explanation, no extra text:
 
 {{
-  "dish_name": "name of the dish in English",
+  "dish_name": "name of the overall dish or snack",
   "total_grams": number,
   "ingredients": [
-    {{"name": "ingredient name", "grams": number}},
+    {{"name": "simple ingredient name", "grams": number}},
     ...
   ],
-  "reason": "one sentence explaining why this dish fits the remaining macros"
+  "reason": "one sentence explaining why this fits the remaining macros and meal type"
 }}
 
 Rules:
-- dish_name must be a generic, searchable dish name (e.g. "grilled chicken breast", "lentil soup").
 - total_grams must be the sum of all ingredient grams.
 - Output JSON only.
 """
