@@ -4,16 +4,14 @@
       <img src="icon.png" alt="CalorIA" width="200">
     </td>
     <td>
-      <h1> Pipeline Nutricional Inteligente</h1>
+      <h1> CalorIA: Pipeline Nutricional Inteligente</h1>
     </td>
   </tr>
 </table>
 
 ---
 
-# Ejemplo
 
-Aqui abría que añadir el input y el output, poner imágenes
 
 # Objetivo
 
@@ -28,24 +26,29 @@ El objetivo de este proyecto es desarrollar un sistema basado en Deep Learning c
 *Diagrama detallado del flujo de datos desde la entrada multimodal hasta el resultado final.*
 
 
-# Tecnologías utilizadas
-
-
-
-# Componentes del sistema
-
-Describir las funciones y las clases
 
 # Metodología
 
-- **Input**: Imagen de la comida y un texto opcional del usuario por si es necesario completar la información.
-- el texto se preprocesa con un Text to text utilizando Qwen2.5-3B-Instruct con el objetivo de traducir el texto del usuario 
+El sistema desarrollado sigue un enfoque modular basado en un pipeline multimodal que integra información visual y textual para estimar el contenido nutricional de una comida y compararlo con los objetivos del usuario.
+
+En primer lugar, el sistema recibe como entrada una imagen de la comida, un texto opcional proporcionado por el usuario (para añadir contexto adicional) y los datos personales del usuario (como peso, altura, edad y nivel de actividad). A partir de estos últimos, se estiman las necesidades calóricas diarias mediante la ecuación de Mifflin-St Jeor.
+
+A continuación, el texto introducido por el usuario es procesado mediante un modelo de lenguaje (Qwen2.5-3B-Instruct), cuyo objetivo es traducirlo al inglés y optimizarlo como contexto estructurado para el modelo multimodal. Este paso garantiza que la información adicional se integre de forma precisa sin introducir supuestos.
+
+Posteriormente, la imagen junto con el contexto textual se introducen en el modelo de visión-lenguaje (Qwen2-VL-7B-Instruct), el cual actúa como un sistema experto capaz de identificar los alimentos presentes en el plato, estimar sus cantidades y contextualizar el tipo de preparación. Como salida, se genera un JSON estructurado que incluye los ingredientes, su peso estimado y si su detección es visual o inferida.
+
+En la fase de estimación nutricional, el sistema consulta bases de datos externas (principalmente USDA). En caso de no encontrar coincidencias fiables, se emplea un modelo de lenguaje (Qwen2.5-7B-Instruct) como mecanismo de respaldo para estimar los valores nutricionales de los alimentos.
+
+Los resultados obtenidos se almacenan en un sistema de persistencia basado en archivos JSON, organizados por fecha y hora, permitiendo el seguimiento del consumo diario del usuario.
+
+Finalmente, el sistema agrega la información nutricional diaria y la compara con los objetivos definidos por el usuario, proporcionando una evaluación del progreso. Como extensión del sistema, se contempla la generación de recomendaciones o recetas orientadas a alcanzar dichos objetivos nutricionales.
 
 # Uso
 
 <p align="center">
-  <img src="imagenes/foto.jpg" alt="" width="50%">
+  <img src="images/foto2.jpg" alt="" width="50%">
 </p>
+
 
 
 
@@ -109,13 +112,6 @@ La cobertura de las bases de datos nutricionales no siempre es completa, requiri
 }
 
 
-@misc{openfoodfacts,
-  author = {{Open Food Facts}},
-  title = {A collaborative, open database of food products from around the world},
-  year = {2012--2024},
-  url = {https://world.openfoodfacts.org/},
-  note = {Accessed: [Insert Date Here]}
-}
 
 @article{mifflin1990new,
   title={A new predictive equation for resting energy expenditure in healthy individuals},
