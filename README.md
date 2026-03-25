@@ -45,9 +45,36 @@ Finalmente, el sistema agrega la información nutricional diaria y la compara co
 
 # Uso
 
+En el archivo `main.ipynb` se muestra un ejemplo de uso.
+
+Primero se introducen los datos del usuario:
+
+```Python
+user = UserProfile(
+    name           = "Usuario",
+    sex            = "male",        # "male" | "female"
+    age            = 25,
+    weight_kg      = 75.0,
+    height_cm      = 178.0,
+    activity_level = 3,             # entrenos/semana (0-6)
+    goal           = "maintenance",  # "loss" | "maintenance" | "gain"
+    restrictions   = {                   
+        "allergies":    [],               # e.g. ["gluten", "nuts"]
+        "intolerances": [],               # e.g. ["lactose"]
+        "dislikes":     [],               # e.g. ["liver", "anchovies"]
+    }
+)
+```
+
+Seguido de la imagen y un texto opcional del usuario:
+
 <p align="center">
-  <img src="images/foto2.jpg" alt="" width="50%">
+  <img src="images/foto2.jpg" alt=Fuente: Shutterstock" width="50%">
 </p>
+
+Texto introducido por el usuario: "200 gramos de salmón".
+
+Como resultado se obtiene una descripción de las características del plato
 
 
 
