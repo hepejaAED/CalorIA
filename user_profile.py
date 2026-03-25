@@ -84,9 +84,9 @@ class UserProfile:
 
         return {
             "kcal":    target_kcal,
-            "protein": protein_g,   # gramos
-            "fat":     fat_g,       # gramos
-            "carbs":   carb_g,      # gramos
+            "protein_g": protein_g,   # gramos
+            "fat_g":     fat_g,       # gramos
+            "carbs_g":   carb_g,      # gramos
             "bmr":     round(self._bmr()),
             "tdee":    round(tdee),
         }
@@ -99,9 +99,9 @@ class UserProfile:
             f"=== {self.name} | {goal_label} ===",
             f"BMR: {t['bmr']} kcal  |  TDEE: {t['tdee']} kcal",
             f"Objetivo diario: {t['kcal']} kcal",
-            f"  Proteína: {t['protein']}g",
-            f"  Carbos:   {t['carbs']}g",
-            f"  Grasa:    {t['fat']}g",
+            f"  Proteína: {t['protein_g']}g",
+            f"  Carbos:   {t['carbs_g']}g",
+            f"  Grasa:    {t['fat_g']}g",
         ]
     
         all_restricted = (
