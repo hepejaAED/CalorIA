@@ -43,8 +43,12 @@ class UserProfile:
     weight_kg: float
     height_cm: float
     activity_level: ActivityLevel   # 0-6 entrenos/semana
-    goal: Goal                      # "loss" | "maintenance" | "gain"
-
+    goal: Goal # "loss" | "maintenance" | "gain"
+    restrictions: dict = field(default_factory=lambda: {
+        "allergies": [],
+        "intolerances": [],
+        "dislikes": []
+    })
     # Se calculan automáticamente al crear el perfil
     daily_targets: dict = field(init=False)
 
@@ -90,11 +94,22 @@ class UserProfile:
     def summary(self) -> str:
         t = self.daily_targets
         goal_label = {"loss": "Pérdida de peso", "maintenance": "Mantenimiento", "gain": "Volumen"}[self.goal]
-        return (
-            f"=== {self.name} | {goal_label} ===\n"
-            f"BMR: {t['bmr']} kcal  |  TDEE: {t['tdee']} kcal\n"
-            f"Objetivo diario: {t['kcal']} kcal\n"
-            f"  Proteína: {t['protein']}g\n"
-            f"  Carbos:   {t['carbs']}g\n"
-            f"  Grasa:    {t['fat']}g"
+    
+        lines = [
+            f"=== {self.name} | {goal_label} ===",
+            f"BMR: {t['bmr']} kcal  |  TDEE: {t['tdee']} kcal",
+            f"Objetivo diario: {t['kcal']} kcal",
+            f"  Proteína: {t['protein']}g",
+            f"  Carbos:   {t['carbs']}g",
+            f"  Grasa:    {t['fat']}g",
+        ]
+    
+        all_restricted = (
+            self.restrictions.get("allergies", []) +
+            self.restrictions.get("intolerances", []) +
+            self.restrictions.get("dislikes", [])
         )
+        if all_restricted:
+            lines.append(f"  Restricciones: {', '.join(all_restricted)}")
+    
+        return "\n".join(lines)
