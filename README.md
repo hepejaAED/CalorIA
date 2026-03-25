@@ -62,14 +62,27 @@ La cobertura de las bases de datos nutricionales no siempre es completa, requiri
 # Bibliografía
 
 ```bibtex
-@misc{qwen3technicalreport,
-      title={Qwen3 Technical Report}, 
-      author={Qwen Team},
-      year={2025},
-      eprint={2505.09388},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={[https://arxiv.org/abs/2505.09388](https://arxiv.org/abs/2505.09388)}, 
+@misc{qwen2.5,
+    title = {Qwen2.5: A Party of Foundation Models},
+    url = {https://qwenlm.github.io/blog/qwen2.5/},
+    author = {Qwen Team},
+    month = {September},
+    year = {2024}
+}
+
+@article{qwen2,
+      title={Qwen2 Technical Report}, 
+      author={An Yang and Baosong Yang and Binyuan Hui and Bo Zheng and Bowen Yu and Chang Zhou and Chengpeng Li and Chengyuan Li and Dayiheng Liu and Fei Huang and Guanting Dong and Haoran Wei and Huan Lin and Jialong Tang and Jialin Wang and Jian Yang and Jianhong Tu and Jianwei Zhang and Jianxin Ma and Jin Xu and Jingren Zhou and Jinze Bai and Jinzheng He and Junyang Lin and Kai Dang and Keming Lu and Keqin Chen and Kexin Yang and Mei Li and Mingfeng Xue and Na Ni and Pei Zhang and Peng Wang and Ru Peng and Rui Men and Ruize Gao and Runji Lin and Shijie Wang and Shuai Bai and Sinan Tan and Tianhang Zhu and Tianhao Li and Tianyu Liu and Wenbin Ge and Xiaodong Deng and Xiaohuan Zhou and Xingzhang Ren and Xinyu Zhang and Xipin Wei and Xuancheng Ren and Yang Fan and Yang Yao and Yichang Zhang and Yu Wan and Yunfei Chu and Yuqiong Liu and Zeyu Cui and Zhenru Zhang and Zhihao Fan},
+      journal={arXiv preprint arXiv:2407.10671},
+      year={2024}
+}
+
+@misc{qwen2.5-VL,
+    title = {Qwen2.5-VL},
+    url = {https://qwenlm.github.io/blog/qwen2.5-vl/},
+    author = {Qwen Team},
+    month = {January},
+    year = {2025}
 }
 
 @article{Qwen2VL,
@@ -85,5 +98,36 @@ La cobertura de las bases de datos nutricionales no siempre es completa, requiri
   journal={arXiv preprint arXiv:2308.12966},
   year={2023}
 }
+
+
+@misc{usda2024branded,
+  author = {{U.S. Department of Agriculture, Agricultural Research Service}},
+  title = {USDA Branded Food Products Database},
+  year = {2024},
+  url = {https://data.nal.usda.gov/dataset/fooddata-central},
+  note = {Accessed: [Insert Date Here]}
+}
+
+
+@misc{openfoodfacts,
+  author = {{Open Food Facts}},
+  title = {A collaborative, open database of food products from around the world},
+  year = {2012--2024},
+  url = {https://world.openfoodfacts.org/},
+  note = {Accessed: [Insert Date Here]}
+}
+
+@article{mifflin1990new,
+  title={A new predictive equation for resting energy expenditure in healthy individuals},
+  author={Mifflin, M. D. and St Jeor, S. T. and Hill, L. A. and Scott, B. J. and Daugherty, S. A. and Koh, Y. O.},
+  journal={The American Journal of Clinical Nutrition},
+  volume={51},
+  number={2},
+  pages={241--247},
+  year={1990},
+  publisher={Oxford University Press},
+  doi={10.1093/ajcn/51.2.241}
+}
+
 
 ```
