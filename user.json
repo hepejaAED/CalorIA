@@ -5,5 +5,10 @@
         "protein_g": 135,
         "carbs_g": 351,
         "fat_g": 84
+    },
+    "restrictions": {
+        "allergies": [],
+        "intolerances": [],
+        "dislikes": []
     }
 }
