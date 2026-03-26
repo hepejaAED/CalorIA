@@ -27,7 +27,7 @@ import time
 load_dotenv()
  
 # ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
-os.environ["USDA_API_KEY"] = "J49CUStV1jni8rGgxNgwPK3rfJg1Nd1jxIoffpEG"
+#os.environ["USDA_API_KEY"] = "" # Si no funciona la API ponerla aqui
 USDA_API_KEY    = os.getenv("USDA_API_KEY", "DEMO_KEY")
 USDA_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"
 NUTRIENT_IDS = {
