@@ -69,10 +69,93 @@ user = UserProfile(
 Seguido de la imagen y un texto opcional del usuario:
 
 <p align="center">
-  <img src="images/foto2.jpg" alt=Fuente: Shutterstock" width="50%">
+  <img src="images/pescadoensaladaypatatas.jpeg" width="50%">
+
+  <img src="images/boloñesa.jpeg" width="50%">
+  "Boloñesa y lleva 125 gramos de pasta"
 </p>
 
-Texto introducido por el usuario: "200 gramos de salmón".
+
+# 📸 Ejemplo de uso
+
+<div style="display: flex; justify-content: space-between; gap: 20px;">
+
+  <!-- BLOQUE 1 -->
+
+  <div style="width: 48%; text-align: center;">
+    <img src="images/pescadoensaladaypatatas.jpeg" width="100%" style="border-radius: 10px;"/>
+
+```
+<br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ingrediente</th>
+      <th>Gramos</th>
+      <th>Fuente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Grilled fish</td><td>200</td><td>Visible</td></tr>
+    <tr><td>Lettuce</td><td>50</td><td>Visible</td></tr>
+    <tr><td>Tomatoes</td><td>50</td><td>Visible</td></tr>
+    <tr><td>Onions</td><td>20</td><td>Visible</td></tr>
+    <tr><td>Carrots</td><td>10</td><td>Visible</td></tr>
+    <tr><td>Potatoes</td><td>50</td><td>Visible</td></tr>
+  </tbody>
+</table>
+```
+
+  </div>
+
+  <!-- BLOQUE 2 -->
+
+  <div style="width: 48%; text-align: center;">
+    <img src="images/boloñesa.jpeg" width="100%" style="border-radius: 10px;"/>
+
+```
+<br><br>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ingrediente</th>
+      <th>Gramos</th>
+      <th>Fuente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>pasta</td><td>125</td><td>visible</td></tr>
+    <tr><td>meat</td><td>100</td><td>visible</td></tr>
+    <tr><td>tomato sauce</td><td>100</td><td>visible</td></tr>
+  </tbody>
+</table>
+```
+
+  </div>
+
+</div>
+
+
+
+"kcal": 399.0,
+"protein_g": 44.0,
+"fat_g": 27.8,
+"carbs_g": 20.5,
+"fiber_g": 3.1,
+"sugar_g": 2.9,
+"sodium_mg": 495.2
+
+
+"kcal": 819.8,
+"protein_g": 29.5,
+"fat_g": 6.3,
+"carbs_g": 89.0,
+"fiber_g": 3.6,
+"sugar_g": 8.5,
+"sodium_mg": 93.2
+
 
 Como resultado se obtiene una descripción de las características del plato
 
