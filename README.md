@@ -87,6 +87,16 @@ La cobertura de las bases de datos nutricionales no siempre es completa, requiri
 
 # Futuros trabajos
 
+El sistema desarrollado constituye una base sólida para el análisis nutricional multimodal, pero presenta diversas oportunidades de mejora y ampliación.
+En primer lugar, se plantea optimizar el rendimiento del pipeline, reduciendo los tiempos de inferencia mediante técnicas de cuantización, uso de modelos más ligeros o estrategias de caché, lo que permitiría su integración en aplicaciones en tiempo real.
+
+Asimismo, sería interesante mejorar la precisión en la estimación de cantidades, incorporando técnicas más avanzadas de visión por computador, como estimación de volumen o segmentación de alimentos, con el objetivo de reducir la dependencia de heurísticas y aproximaciones.
+
+Otra línea de trabajo relevante consiste en ampliar y enriquecer las fuentes de datos nutricionales, integrando más bases de datos o desarrollando un sistema propio que permita mejorar la cobertura y fiabilidad de los alimentos detectados.
+
+Desde el punto de vista del usuario, se propone el desarrollo de una interfaz interactiva (por ejemplo, mediante Streamlit) que permita subir imágenes, introducir contexto adicional y visualizar los resultados de forma intuitiva, incluyendo gráficos de progreso y recomendaciones personalizadas.
+
+Finalmente, se contempla la posibilidad de evolucionar el sistema hacia un asistente nutricional inteligente, capaz de aprender de los hábitos del usuario y generar recomendaciones más avanzadas, como planificación de dietas o sugerencias de comidas adaptadas a objetivos específicos.
 
 
 # Bibliografía
