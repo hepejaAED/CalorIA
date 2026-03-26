@@ -1,19 +1,11 @@
 {
-    "2026-03-24": [
+    "2026-03-26": [
         {
-            "dish_name": "Grilled Salmon with Lemon and Herb Sauce",
+            "dish_name": "grilled fish with salad",
             "ingredients": [
                 {
-                    "name": "grilled salmon",
+                    "name": "grilled fish",
                     "grams": 200
-                },
-                {
-                    "name": "lemon slices",
-                    "grams": 50
-                },
-                {
-                    "name": "herb sauce",
-                    "grams": 20
                 },
                 {
                     "name": "lettuce",
@@ -24,143 +16,124 @@
                     "grams": 50
                 },
                 {
-                    "name": "cucumber",
-                    "grams": 50
+                    "name": "onions",
+                    "grams": 20
+                },
+                {
+                    "name": "carrots",
+                    "grams": 10
                 },
                 {
                     "name": "potatoes",
-                    "grams": 66
+                    "grams": 50
                 }
             ],
             "nutrition": {
                 "items": [
                     {
-                        "name": "grilled salmon",
+                        "name": "grilled fish",
                         "grams": 200,
                         "source": "LLM (estimado)",
-                        "description": "grilled salmon",
-                        "kcal": 474.0,
-                        "protein_g": 42.2,
-                        "fat_g": 29.4,
+                        "description": "grilled fish",
+                        "kcal": 240.0,
+                        "protein_g": 40.0,
+                        "fat_g": 20.0,
                         "carbs_g": 0.0,
                         "fiber_g": 0.0,
                         "sugar_g": 0.0,
-                        "sodium_mg": 200.0
-                    },
-                    {
-                        "name": "lemon slices",
-                        "grams": 50,
-                        "source": "LLM (estimado)",
-                        "description": "lemon slices",
-                        "kcal": 5.5,
-                        "protein_g": 0.0,
-                        "fat_g": 0.0,
-                        "carbs_g": 1.4,
-                        "fiber_g": 0.1,
-                        "sugar_g": 1.4,
-                        "sodium_mg": 0.0
-                    },
-                    {
-                        "name": "herb sauce",
-                        "grams": 20,
-                        "source": "LLM (estimado)",
-                        "description": "herb sauce",
-                        "kcal": 20.0,
-                        "protein_g": 0.1,
-                        "fat_g": 0.1,
-                        "carbs_g": 2.0,
-                        "fiber_g": 0.1,
-                        "sugar_g": 0.0,
-                        "sodium_mg": 0.0
+                        "sodium_mg": 100.0
                     },
                     {
                         "name": "lettuce",
                         "grams": 50,
                         "source": "LLM (estimado)",
                         "description": "lettuce",
-                        "kcal": 7.5,
-                        "protein_g": 0.3,
-                        "fat_g": 0.1,
-                        "carbs_g": 0.6,
-                        "fiber_g": 0.3,
-                        "sugar_g": 0.1,
-                        "sodium_mg": 5.0
+                        "kcal": 12.9,
+                        "protein_g": 0.4,
+                        "fat_g": 0.2,
+                        "carbs_g": 1.8,
+                        "fiber_g": 0.4,
+                        "sugar_g": 0.7,
+                        "sodium_mg": 5.5
                     },
                     {
                         "name": "tomatoes",
                         "grams": 50,
-                        "source": "LLM (estimado)",
-                        "description": "tomatoes",
-                        "kcal": 9.0,
+                        "source": "USDA",
+                        "description": "Tomato, roma",
+                        "kcal": 0.0,
                         "protein_g": 0.3,
-                        "fat_g": 0.1,
-                        "carbs_g": 2.0,
-                        "fiber_g": 0.6,
-                        "sugar_g": 1.4,
-                        "sodium_mg": 9.0
+                        "fat_g": 0.2,
+                        "carbs_g": 1.9,
+                        "fiber_g": 0.5,
+                        "sugar_g": 0.0,
+                        "sodium_mg": 0.0
                     },
                     {
-                        "name": "cucumber",
-                        "grams": 50,
-                        "source": "LLM (estimado)",
-                        "description": "cucumber",
-                        "kcal": 8.5,
-                        "protein_g": 0.3,
-                        "fat_g": 0.1,
-                        "carbs_g": 1.4,
-                        "fiber_g": 0.6,
-                        "sugar_g": 0.1,
-                        "sodium_mg": 5.0
+                        "name": "onions",
+                        "grams": 20,
+                        "source": "USDA",
+                        "description": "Onions, raw",
+                        "kcal": 8.0,
+                        "protein_g": 0.2,
+                        "fat_g": 0.0,
+                        "carbs_g": 1.9,
+                        "fiber_g": 0.3,
+                        "sugar_g": 0.8,
+                        "sodium_mg": 0.8
+                    },
+                    {
+                        "name": "carrots",
+                        "grams": 10,
+                        "source": "USDA",
+                        "description": "Carrots, raw",
+                        "kcal": 4.1,
+                        "protein_g": 0.1,
+                        "fat_g": 0.0,
+                        "carbs_g": 1.0,
+                        "fiber_g": 0.3,
+                        "sugar_g": 0.5,
+                        "sodium_mg": 6.9
                     },
                     {
                         "name": "potatoes",
-                        "grams": 66,
-                        "source": "LLM (estimado)",
-                        "description": "potatoes",
-                        "kcal": 105.6,
-                        "protein_g": 1.3,
-                        "fat_g": 0.1,
-                        "carbs_g": 25.1,
-                        "fiber_g": 1.3,
-                        "sugar_g": 0.0,
-                        "sodium_mg": 6.6
+                        "grams": 50,
+                        "source": "USDA",
+                        "description": "Potato pancakes",
+                        "kcal": 134.0,
+                        "protein_g": 3.0,
+                        "fat_g": 7.4,
+                        "carbs_g": 13.9,
+                        "fiber_g": 1.6,
+                        "sugar_g": 0.9,
+                        "sodium_mg": 382.0
                     }
                 ],
                 "totals": {
-                    "kcal": 630.1,
-                    "protein_g": 44.5,
-                    "fat_g": 29.9,
-                    "carbs_g": 32.5,
-                    "fiber_g": 3.0,
-                    "sugar_g": 3.0,
-                    "sodium_mg": 225.6
+                    "kcal": 399.0,
+                    "protein_g": 44.0,
+                    "fat_g": 27.8,
+                    "carbs_g": 20.5,
+                    "fiber_g": 3.1,
+                    "sugar_g": 2.9,
+                    "sodium_mg": 495.2
                 }
             },
-            "time": "21:15:57"
-        }
-    ],
-    "2026-03-26": [
+            "time": "16:59:32"
+        },
         {
-            "dish_name": "Pasta salad with chicken and vegetables",
+            "dish_name": "pasta with meat sauce",
             "ingredients": [
                 {
                     "name": "pasta",
-                    "grams": 250
+                    "grams": 125
                 },
                 {
-                    "name": "chicken",
+                    "name": "meat",
                     "grams": 100
                 },
                 {
-                    "name": "carrots",
-                    "grams": 50
-                },
-                {
-                    "name": "zucchini",
-                    "grams": 50
-                },
-                {
-                    "name": "broth",
+                    "name": "tomato sauce",
                     "grams": 100
                 }
             ],
@@ -168,81 +141,55 @@
                 "items": [
                     {
                         "name": "pasta",
-                        "grams": 250,
+                        "grams": 125,
                         "source": "LLM (estimado)",
                         "description": "pasta",
-                        "kcal": 967.5,
-                        "protein_g": 17.2,
-                        "fat_g": 6.2,
-                        "carbs_g": 170.5,
-                        "fiber_g": 6.5,
-                        "sugar_g": 12.0,
-                        "sodium_mg": 2.5
+                        "kcal": 483.8,
+                        "protein_g": 8.6,
+                        "fat_g": 3.1,
+                        "carbs_g": 85.2,
+                        "fiber_g": 3.2,
+                        "sugar_g": 6.0,
+                        "sodium_mg": 1.2
                     },
                     {
-                        "name": "chicken",
+                        "name": "meat",
                         "grams": 100,
-                        "source": "USDA",
-                        "description": "Fat, chicken",
-                        "kcal": 900.0,
-                        "protein_g": 0.0,
-                        "fat_g": 99.8,
+                        "source": "LLM (estimado)",
+                        "description": "meat",
+                        "kcal": 175.0,
+                        "protein_g": 20.0,
+                        "fat_g": 3.0,
                         "carbs_g": 0.0,
                         "fiber_g": 0.0,
                         "sugar_g": 0.0,
-                        "sodium_mg": 0.0
+                        "sodium_mg": 80.0
                     },
                     {
-                        "name": "carrots",
-                        "grams": 50,
-                        "source": "USDA",
-                        "description": "Carrots, raw",
-                        "kcal": 20.5,
-                        "protein_g": 0.5,
-                        "fat_g": 0.1,
-                        "carbs_g": 4.8,
-                        "fiber_g": 1.4,
-                        "sugar_g": 2.4,
-                        "sodium_mg": 34.5
-                    },
-                    {
-                        "name": "zucchini",
-                        "grams": 50,
-                        "source": "LLM (estimado)",
-                        "description": "zucchini",
-                        "kcal": 10.8,
-                        "protein_g": 0.6,
-                        "fat_g": 0.1,
-                        "carbs_g": 2.7,
-                        "fiber_g": 0.6,
-                        "sugar_g": 0.9,
-                        "sodium_mg": 3.0
-                    },
-                    {
-                        "name": "broth",
+                        "name": "tomato sauce",
                         "grams": 100,
-                        "source": "USDA",
-                        "description": "Fish broth",
-                        "kcal": 16.0,
-                        "protein_g": 2.0,
-                        "fat_g": 0.6,
-                        "carbs_g": 0.4,
-                        "fiber_g": 0.0,
-                        "sugar_g": 0.1,
-                        "sodium_mg": 200.0
+                        "source": "LLM (estimado)",
+                        "description": "tomato sauce",
+                        "kcal": 161.0,
+                        "protein_g": 0.9,
+                        "fat_g": 0.2,
+                        "carbs_g": 3.8,
+                        "fiber_g": 0.4,
+                        "sugar_g": 2.5,
+                        "sodium_mg": 12.0
                     }
                 ],
                 "totals": {
-                    "kcal": 1914.8,
-                    "protein_g": 20.3,
-                    "fat_g": 106.8,
-                    "carbs_g": 178.4,
-                    "fiber_g": 8.5,
-                    "sugar_g": 15.4,
-                    "sodium_mg": 240.0
+                    "kcal": 819.8,
+                    "protein_g": 29.5,
+                    "fat_g": 6.3,
+                    "carbs_g": 89.0,
+                    "fiber_g": 3.6,
+                    "sugar_g": 8.5,
+                    "sodium_mg": 93.2
                 }
             },
-            "time": "10:50:12"
+            "time": "17:44:18"
         }
     ]
 }
