@@ -138,5 +138,111 @@
             },
             "time": "21:15:57"
         }
+    ],
+    "2026-03-26": [
+        {
+            "dish_name": "Pasta salad with chicken and vegetables",
+            "ingredients": [
+                {
+                    "name": "pasta",
+                    "grams": 250
+                },
+                {
+                    "name": "chicken",
+                    "grams": 100
+                },
+                {
+                    "name": "carrots",
+                    "grams": 50
+                },
+                {
+                    "name": "zucchini",
+                    "grams": 50
+                },
+                {
+                    "name": "broth",
+                    "grams": 100
+                }
+            ],
+            "nutrition": {
+                "items": [
+                    {
+                        "name": "pasta",
+                        "grams": 250,
+                        "source": "LLM (estimado)",
+                        "description": "pasta",
+                        "kcal": 967.5,
+                        "protein_g": 17.2,
+                        "fat_g": 6.2,
+                        "carbs_g": 170.5,
+                        "fiber_g": 6.5,
+                        "sugar_g": 12.0,
+                        "sodium_mg": 2.5
+                    },
+                    {
+                        "name": "chicken",
+                        "grams": 100,
+                        "source": "USDA",
+                        "description": "Fat, chicken",
+                        "kcal": 900.0,
+                        "protein_g": 0.0,
+                        "fat_g": 99.8,
+                        "carbs_g": 0.0,
+                        "fiber_g": 0.0,
+                        "sugar_g": 0.0,
+                        "sodium_mg": 0.0
+                    },
+                    {
+                        "name": "carrots",
+                        "grams": 50,
+                        "source": "USDA",
+                        "description": "Carrots, raw",
+                        "kcal": 20.5,
+                        "protein_g": 0.5,
+                        "fat_g": 0.1,
+                        "carbs_g": 4.8,
+                        "fiber_g": 1.4,
+                        "sugar_g": 2.4,
+                        "sodium_mg": 34.5
+                    },
+                    {
+                        "name": "zucchini",
+                        "grams": 50,
+                        "source": "LLM (estimado)",
+                        "description": "zucchini",
+                        "kcal": 10.8,
+                        "protein_g": 0.6,
+                        "fat_g": 0.1,
+                        "carbs_g": 2.7,
+                        "fiber_g": 0.6,
+                        "sugar_g": 0.9,
+                        "sodium_mg": 3.0
+                    },
+                    {
+                        "name": "broth",
+                        "grams": 100,
+                        "source": "USDA",
+                        "description": "Fish broth",
+                        "kcal": 16.0,
+                        "protein_g": 2.0,
+                        "fat_g": 0.6,
+                        "carbs_g": 0.4,
+                        "fiber_g": 0.0,
+                        "sugar_g": 0.1,
+                        "sodium_mg": 200.0
+                    }
+                ],
+                "totals": {
+                    "kcal": 1914.8,
+                    "protein_g": 20.3,
+                    "fat_g": 106.8,
+                    "carbs_g": 178.4,
+                    "fiber_g": 8.5,
+                    "sugar_g": 15.4,
+                    "sodium_mg": 240.0
+                }
+            },
+            "time": "10:50:12"
+        }
     ]
 }
