@@ -40,7 +40,7 @@ NUTRIENT_IDS = {
     "sodium_mg": 1093,
 }
  
-USDA_MIN_SIMILARITY = 0.5
+USDA_MIN_SIMILARITY = 0.6
 PROCESSED_WORDS     = {"dried", "powder", "dehydrated", "freeze-dried"}
  
 LLM_FALLBACK_PROMPT = """You are a professional nutritionist database.

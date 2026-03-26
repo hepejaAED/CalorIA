@@ -29,7 +29,7 @@ from nutrition_lookup import get_nutrients_per_100g, scale_nutrients, NUTRIENT_I
 
 # ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
 
-KCAL_TRIGGER_PCT   = 0.25   # sugerir si quedan ≤ 25 % de kcal
+KCAL_TRIGGER_PCT   = 0.4   # sugerir si quedan ≤ 25 % de kcal
 TIME_TRIGGER_HOURS = 3.5    # sugerir si quedan ≤ 3.5 h para medianoche
 
 SUGGESTER_PROMPT = """You are a professional nutritionist assistant.
@@ -83,6 +83,7 @@ def check_and_suggest(
     processor_or_tok,
     meals_file: str = "meals.json",
     user_file:  str = "user.json",
+    force: bool = False,
 ) -> dict | None:
     """
     Función principal. Llámala tras cada save_meal() en el notebook.
@@ -107,8 +108,11 @@ def check_and_suggest(
 
     # 2. Evaluar triggers
     triggered, reason = _check_triggers(remaining, targets)
-    if not triggered:
+    if not triggered and not force:
+        print("Sin trigger activo (quedan >25% kcal y >3.5h para medianoche).")
         return None
+    if not triggered and force:
+        reason = "Sugerencia forzada manualmente"
 
     print(f"\n⚡ Trigger activo: {reason}")
     print("🍽️  Generando sugerencia de plato...")
@@ -245,7 +249,14 @@ def _ask_llm(
 
     print("  [LLM] Generando sugerencia...")
     with torch.no_grad():
-        output_ids = model.generate(**inputs, max_new_tokens=400, do_sample=False)
+        output_ids = model.generate(
+            **inputs,
+            max_new_tokens=300,
+            temperature=0.8,       # ← creatividad moderada, no se repite pero tampoco alucina
+            do_sample=True,        # ← necesario para que temperature tenga efecto
+            top_p=0.9,             # ← nucleus sampling: descarta tokens muy improbables
+            repetition_penalty=1.2 # ← penaliza repetir las mismas palabras/frases
+        )
 
     generated_tokens = output_ids[0][inputs.input_ids.shape[1]:]
     response         = proc_or_tok.decode(generated_tokens, skip_special_tokens=True).strip()
@@ -307,7 +318,7 @@ def _verify_with_db(llm_output: dict, model, proc_or_tok) -> dict:
 
     for ing in llm_output["ingredients"]:
         name, grams    = ing["name"], ing["grams"]
-        nutrients_100g = get_nutrients_per_100g(name, model=lm, processor=prc)
+        nutrients_100g = get_nutrients_per_100g(name)
 
         if nutrients_100g is None:
             print(f"  ✗ '{name}' no encontrado. Omitido.")

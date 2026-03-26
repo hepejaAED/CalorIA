@@ -1,10 +1,10 @@
 {
     "name": "Usuario",
     "daily_targets": {
-        "kcal": 2701,
-        "protein_g": 135,
-        "carbs_g": 351,
-        "fat_g": 84
+        "kcal": 1969,
+        "protein_g": 90,
+        "carbs_g": 265,
+        "fat_g": 61
     },
     "restrictions": {
         "allergies": [],
