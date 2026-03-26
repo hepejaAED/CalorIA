@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propiedad Intelectual – CalorIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0E0C0A;
+    --surface: #161210;
+    --border: #2A2218;
+    --accent: #C8773A;
+    --accent-dim: #7A4720;
+    --cream: #F0EAE0;
+    --muted: #6B6058;
+    --subtle: #3A3028;
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    width: 100%;
+    animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Top stamp */
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--accent-dim);
+    padding: 0.3rem 0.75rem;
+    margin-bottom: 2.5rem;
+    animation: rise 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .stamp-icon {
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+
+  .stamp span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Big © symbol */
+  .big-copy {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 0.9;
+    display: block;
+    margin-bottom: 0.2rem;
+    animation: rise 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .headline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+    animation: rise 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Divider */
+  .rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-dim), transparent);
+    margin-bottom: 2rem;
+    animation: rise 0.8s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Rights list */
+  .rights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-bottom: 2rem;
+    animation: rise 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .rights li {
+    display: grid;
+    grid-template-columns: 1.8rem 1fr;
+    gap: 0.5rem;
+    align-items: start;
+    padding: 0.85rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #B0A89E;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .rights li:hover {
+    border-color: var(--accent-dim);
+    background: #1C1610;
+  }
+
+  .rights li .icon {
+    color: var(--accent);
+    font-size: 0.75rem;
+    padding-top: 0.18rem;
+  }
+
+  /* Main statement */
+  .statement {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    padding: 1.2rem 1.3rem;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--cream);
+    margin-bottom: 2rem;
+    animation: rise 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .statement strong {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* Footer */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--subtle);
+    animation: rise 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  .footer-meta {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="stamp">
+    <span class="stamp-icon">©</span>
+    <span>Propiedad Intelectual</span>
+  </div>
+
+  <span class="big-copy">©</span>
+  <h1 class="headline">
+    Todos los derechos<br>
+    <em>reservados.</em>
+  </h1>
+
+  <div class="rule"></div>
+
+  <ul class="rights">
+    <li>
+      <span class="icon">▸</span>
+      <span>El <strong style="color:#C8773A;font-weight:400">nombre, marca y logotipo</strong> de CalorIA son propiedad exclusiva de sus creadores y no pueden utilizarse sin autorización expresa.</span>
+    </li>
+    <li>
+      <span class="icon">▸</span>
+      <span>El <strong style="color:#C8773A;font-weight:400">diseño, interfaz y experiencia de usuario</strong> de la aplicación están protegidos como obra original.</span>
+    </li>
+    <li>
+      <span class="icon">▸</span>
+      <span>El <strong style="color:#C8773A;font-weight:400">código fuente, arquitectura y pipelines</strong> de inteligencia artificial son confidenciales y de titularidad propia.</span>
+    </li>
+    <li>
+      <span class="icon">▸</span>
+      <span>El <strong style="color:#C8773A;font-weight:400">concepto de negocio e idea de producto</strong> están protegidos en su conjunto como propiedad intelectual.</span>
+    </li>
+  </ul>
+
+  <div class="statement">
+    Queda <strong>estrictamente prohibida</strong> la reproducción, distribución, modificación o uso comercial —total o parcial— de cualquier elemento de CalorIA sin <strong>autorización expresa por escrito</strong> de sus titulares. El incumplimiento podrá dar lugar a las acciones legales correspondientes.
+  </div>
+
+  <div class="footer">
+    <span class="logo">CalorIA</span>
+    <p class="footer-meta">
+      © 2025 CalorIA. Todos los derechos reservados.<br>
+      Registro de propiedad intelectual en trámite.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
